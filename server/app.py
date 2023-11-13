@@ -26,7 +26,6 @@ class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
         if user_id is not None:
-            # Update the following line
             user = db.session.get(User, user_id)
             return user.to_dict(), 200
         else:
@@ -38,7 +37,6 @@ class Login(Resource):
         username = json.get('username')
         password = json.get('password')
 
-        # Implement your authentication logic here
         user = User.query.filter_by(username=username).first()
 
         if user and user.authenticate(password):
