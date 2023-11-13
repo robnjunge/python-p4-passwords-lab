@@ -14,15 +14,12 @@ class User(db.Model, SerializerMixin):
     def password_hash(self):
         raise Exception('Password hashes may not be viewed.')
 
-    @password_hash.setter
-    def password_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(
-            password.encode('utf-8'))
+    def set_password(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(
-            self._password_hash, password.encode('utf-8'))
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
     def __repr__(self):
         return f'User {self.username}, ID: {self.id}'
